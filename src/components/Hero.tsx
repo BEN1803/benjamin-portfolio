@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { ArrowDown } from "lucide-react";
+import NetworkScene from "./NetworkScene";
 
 export default function Hero() {
   return (
@@ -9,6 +10,8 @@ export default function Hero() {
       id="hero"
       className="relative flex min-h-screen w-full items-center overflow-hidden bg-[#050505]"
     >
+      <NetworkScene />
+      
       {/* Background glow */}
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#2f7bff]/10 blur-[140px]"
