@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import IntroSection from "@/components/IntroSection";
+import Projects from "@/components/Projects";
 
 export default function Home() {
   return (
@@ -11,14 +12,7 @@ export default function Home() {
 
       <IntroSection />
 
-      <section
-        id="work"
-        className="flex min-h-screen items-center justify-center bg-[#050505]"
-      >
-        <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/30">
-          Work section coming next
-        </p>
-      </section>
+      <Projects />
     </main>
   );
 }
