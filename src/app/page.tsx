@@ -8,6 +8,7 @@ import BuildProcess from "@/components/BuildProcess";
 import Terminal from "@/components/Terminal";
 import About from "@/components/About";
 import DeveloperStats from "@/components/DeveloperStats";
+import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
@@ -31,6 +32,8 @@ export default function Home() {
       <About />
 
       <DeveloperStats />
+
+      <Contact />
 
     </main>
   );
