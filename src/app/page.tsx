@@ -5,6 +5,7 @@ import Projects from "@/components/Projects";
 import TechnicalReveal from "@/components/TechnicalReveal";
 import Skills from "@/components/Skills";
 import BuildProcess from "@/components/BuildProcess";
+import Terminal from "@/components/Terminal";
 
 export default function Home() {
   return (
@@ -22,7 +23,9 @@ export default function Home() {
       <Skills />
 
       <BuildProcess /> 
-      
+
+      <Terminal />
+
     </main>
   );
 }
