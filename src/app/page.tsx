@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import IntroSection from "@/components/IntroSection";
 
 export default function Home() {
   return (
@@ -7,6 +8,8 @@ export default function Home() {
       <Navbar />
 
       <Hero />
+
+      <IntroSection />
 
       <section
         id="work"
