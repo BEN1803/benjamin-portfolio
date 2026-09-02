@@ -1,182 +1,238 @@
 "use client";
 
+import { useLayoutEffect, useRef } from "react";
 import { motion } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ArrowDown } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { projects } from "@/lib/projects";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Projects() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    const track = trackRef.current;
+
+    if (!section || !track) return;
+
+    const ctx = gsap.context(() => {
+      const getScrollAmount = () => {
+        return -(track.scrollWidth - window.innerWidth);
+      };
+
+      gsap.to(track, {
+        x: getScrollAmount,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${track.scrollWidth - window.innerWidth}`,
+          scrub: 1,
+          pin: true,
+          invalidateOnRefresh: true,
+        },
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="work"
-      className="relative overflow-hidden bg-[#050505] px-6 py-32 md:px-10 md:py-48"
+      className="relative overflow-hidden bg-[#050505]"
     >
-      <div className="mx-auto max-w-7xl">
-        {/* Section heading */}
-        <div className="mb-24 flex flex-col justify-between gap-8 md:flex-row md:items-end">
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.7 }}
-              className="mb-6 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-white/30"
-            >
-              <span className="text-[#2f7bff]">02</span>
-
-              <span>/</span>
-
-              <span>Selected Work</span>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{
-                duration: 0.9,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="font-display text-[clamp(4rem,10vw,9rem)] font-bold uppercase leading-[0.82] tracking-[-0.06em]"
-            >
-              Selected
-              <br />
-              <span className="text-white/30">Work.</span>
-            </motion.h2>
+      {/* Section header */}
+      <div className="absolute left-0 top-0 z-20 w-full px-6 pt-10 md:px-10 md:pt-12">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-white/30">
+            <span className="text-[#2f7bff]">02</span>
+            <span>/</span>
+            <span>Selected Work</span>
           </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
+          <div className="hidden items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/25 md:flex">
+            <span>Scroll</span>
+
+            <ArrowDown
+              size={13}
+              strokeWidth={1.5}
+              className="rotate-[-90deg]"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Horizontal track */}
+      <div
+        ref={trackRef}
+        className="flex h-screen w-max items-center gap-8 px-6 md:gap-12 md:px-10"
+      >
+        {/* Intro panel */}
+        <div className="flex h-[70vh] w-[85vw] max-w-[1000px] flex-shrink-0 flex-col justify-end pb-16 md:h-[72vh] md:w-[70vw] md:pb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{
-              duration: 0.8,
-              delay: 0.15,
-            }}
-            className="max-w-sm text-sm leading-relaxed text-white/40 md:text-right"
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            A selection of systems and digital products built across
-            marketplaces, business management and academic workflows.
-          </motion.p>
+            <p className="mb-8 font-mono text-xs uppercase tracking-[0.25em] text-[#2f7bff]">
+              03 Projects
+            </p>
+
+            <h2 className="max-w-5xl font-display text-[clamp(4rem,11vw,10rem)] font-bold uppercase leading-[0.8] tracking-[-0.06em]">
+              Selected
+              <br />
+              <span className="text-white/25">Work.</span>
+            </h2>
+
+            <p className="mt-10 max-w-md text-sm leading-relaxed text-white/40 md:text-base">
+              Systems, platforms and digital products built to solve real
+              problems.
+            </p>
+          </motion.div>
         </div>
 
-        {/* Projects */}
-        <div className="space-y-6">
-          {projects.map((project, index) => (
-            <motion.article
-              key={project.title}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                duration: 0.8,
-                delay: index * 0.1,
-                ease: [0.22, 1, 0.36, 1],
+        {/* Project cards */}
+        {projects.map((project, index) => (
+          <article
+            key={project.title}
+            className="group relative flex h-[70vh] w-[88vw] max-w-[1200px] flex-shrink-0 overflow-hidden border border-white/10 bg-[#080808] md:h-[72vh] md:w-[78vw]"
+          >
+            {/* Background grid */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-[0.035]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
+                backgroundSize: "70px 70px",
               }}
-              className="group relative overflow-hidden border border-white/10 bg-white/[0.02] transition-colors duration-500 hover:border-[#2f7bff]/40"
-            >
-              <div className="grid min-h-[420px] md:grid-cols-[1fr_1.5fr]">
-                {/* Project information */}
-                <div className="flex flex-col justify-between p-8 md:p-12">
-                  <div>
-                    <div className="mb-8 flex items-center justify-between">
-                      <span className="font-mono text-xs text-[#2f7bff]">
-                        {project.number}
-                      </span>
+            />
 
-                      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
-                        {project.category}
-                      </span>
-                    </div>
+            {/* Blue ambient glow */}
+            <div className="pointer-events-none absolute right-[-15%] top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-[#2f7bff]/[0.04] blur-[120px] transition-all duration-1000 group-hover:bg-[#2f7bff]/[0.08]" />
 
-                    <h3 className="font-display text-4xl font-bold uppercase tracking-[-0.04em] md:text-6xl">
-                      {project.title}
-                    </h3>
+            {/* Content */}
+            <div className="relative z-10 flex w-full flex-col justify-between p-8 md:p-14 lg:p-16">
+              {/* Top */}
+              <div className="flex items-start justify-between">
+                <div>
+                  <span className="font-mono text-xs text-[#2f7bff]">
+                    {project.number}
+                  </span>
 
-                    <p className="mt-6 max-w-md text-sm leading-relaxed text-white/40 md:text-base">
-                      {project.description}
-                    </p>
-                  </div>
-
-                  {/* Technologies */}
-                  <div className="mt-12">
-                    <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
-                      Built with
-                    </p>
-
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((technology) => (
-                        <span
-                          key={technology}
-                          className="border border-white/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-white/40 transition-colors duration-300 group-hover:border-white/20 group-hover:text-white/60"
-                        >
-                          {technology}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
+                    {project.category}
+                  </p>
                 </div>
 
-                {/* Visual area */}
-                <div className="relative min-h-[300px] overflow-hidden border-t border-white/10 md:border-l md:border-t-0">
-                  {/* Grid */}
-                  <div
-                    className="absolute inset-0 opacity-[0.04]"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
-                      backgroundSize: "60px 60px",
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/20">
+                  PROJECT / {project.number}
+                </span>
+              </div>
+
+              {/* Middle */}
+              <div className="grid gap-12 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+                <div>
+                  <h3 className="font-display text-[clamp(3.5rem,7vw,7rem)] font-bold uppercase leading-[0.8] tracking-[-0.06em]">
+                    {project.title}
+                  </h3>
+
+                  <p className="mt-8 max-w-lg text-sm leading-relaxed text-white/40 md:text-base">
+                    {project.description}
+                  </p>
+                </div>
+
+                {/* Technical visual */}
+                <div className="relative hidden aspect-square max-w-[320px] justify-self-end lg:block">
+                  <div className="absolute inset-0 rounded-full border border-[#2f7bff]/10" />
+
+                  <div className="absolute inset-[12%] rounded-full border border-[#2f7bff]/15" />
+
+                  <div className="absolute inset-[25%] rounded-full border border-[#2f7bff]/20" />
+
+                  <div className="absolute left-1/2 top-1/2 h-px w-full -translate-x-1/2 bg-[#2f7bff]/15" />
+
+                  <div className="absolute left-1/2 top-1/2 h-full w-px -translate-y-1/2 bg-[#2f7bff]/15" />
+
+                  <motion.div
+                    animate={{
+                      rotate: 360,
                     }}
-                  />
+                    transition={{
+                      duration: 20,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                    className="absolute inset-[8%]"
+                  >
+                    <div className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 rounded-full bg-[#7dd3fc] shadow-[0_0_20px_#2f7bff]" />
+                  </motion.div>
 
-                  {/* Project number */}
-                  <div className="absolute right-8 top-8 font-mono text-[10px] uppercase tracking-[0.2em] text-white/20">
-                    PROJECT / {project.number}
-                  </div>
-
-                  {/* Abstract visual */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      whileInView={{ scale: 1, opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{
-                        duration: 1,
-                        delay: 0.2,
-                      }}
-                      className="relative h-40 w-40 md:h-56 md:w-56"
-                    >
-                      <div className="absolute inset-0 rounded-full border border-[#2f7bff]/20" />
-
-                      <div className="absolute inset-6 rounded-full border border-[#2f7bff]/20" />
-
-                      <div className="absolute inset-12 rounded-full border border-[#2f7bff]/30" />
-
-                      <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7dd3fc] shadow-[0_0_30px_#2f7bff]" />
-
-                      <div className="absolute left-1/2 top-1/2 h-px w-full -translate-x-1/2 bg-[#2f7bff]/20" />
-
-                      <div className="absolute left-1/2 top-1/2 h-full w-px -translate-y-1/2 bg-[#2f7bff]/20" />
-                    </motion.div>
-                  </div>
-
-                  {/* Open project */}
-                  <div className="absolute bottom-8 right-8">
-                    <div className="flex h-12 w-12 items-center justify-center border border-white/10 transition-all duration-300 group-hover:border-[#2f7bff] group-hover:bg-[#2f7bff]/10">
-                      <ArrowUpRight
-                        size={18}
-                        strokeWidth={1.5}
-                        className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Hover glow */}
-                  <div className="pointer-events-none absolute inset-0 bg-[#2f7bff]/0 transition-colors duration-700 group-hover:bg-[#2f7bff]/[0.025]" />
+                  <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7dd3fc] shadow-[0_0_35px_#2f7bff]" />
                 </div>
               </div>
-            </motion.article>
-          ))}
+
+              {/* Bottom */}
+              <div className="flex flex-col gap-8 border-t border-white/10 pt-6 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-white/20">
+                    Built with
+                  </p>
+
+                  <div className="flex max-w-xl flex-wrap gap-2">
+                    {project.technologies.map((technology) => (
+                      <span
+                        key={technology}
+                        className="border border-white/10 px-3 py-1.5 font-mono text-[9px] uppercase tracking-wider text-white/35 transition-colors duration-300 group-hover:border-[#2f7bff]/30 group-hover:text-white/60"
+                      >
+                        {technology}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className="group/button flex w-fit items-center gap-4 border border-white/10 px-5 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/50 transition-all duration-300 hover:border-[#2f7bff] hover:bg-[#2f7bff]/10 hover:text-white"
+                >
+                  Explore Case Study
+
+                  <ArrowUpRight
+                    size={15}
+                    strokeWidth={1.5}
+                    className="transition-transform duration-300 group-hover/button:-translate-y-1 group-hover/button:translate-x-1"
+                  />
+                </button>
+              </div>
+            </div>
+
+            {/* Hover border */}
+            <div className="pointer-events-none absolute inset-0 border border-[#2f7bff]/0 transition-colors duration-700 group-hover:border-[#2f7bff]/30" />
+
+            {/* Project index */}
+            <div className="absolute bottom-5 right-6 font-mono text-[9px] uppercase tracking-[0.2em] text-white/15 md:right-10">
+              {String(index + 1).padStart(2, "0")} /{" "}
+              {String(projects.length).padStart(2, "0")}
+            </div>
+          </article>
+        ))}
+
+        {/* Ending panel */}
+        <div className="flex h-[70vh] w-[50vw] max-w-[700px] flex-shrink-0 items-center justify-center md:h-[72vh]">
+          <div className="text-center">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/25">
+              More coming
+            </p>
+
+            <div className="mt-6 h-px w-24 bg-[#2f7bff] mx-auto" />
+          </div>
         </div>
       </div>
     </section>
