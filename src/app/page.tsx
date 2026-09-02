@@ -10,10 +10,13 @@ import About from "@/components/About";
 import DeveloperStats from "@/components/DeveloperStats";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import CustomCursor from "@/components/CustomCursor";
 
 export default function Home() {
   return (
     <main id="top" className="bg-[#050505] text-[#f5f7fa]">
+      <CustomCursor />
+
       <Navbar />
 
       <Hero />
