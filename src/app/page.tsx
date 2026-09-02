@@ -7,6 +7,7 @@ import Skills from "@/components/Skills";
 import BuildProcess from "@/components/BuildProcess";
 import Terminal from "@/components/Terminal";
 import About from "@/components/About";
+import DeveloperStats from "@/components/DeveloperStats";
 
 export default function Home() {
   return (
@@ -28,6 +29,8 @@ export default function Home() {
       <Terminal />
 
       <About />
+
+      <DeveloperStats />
 
     </main>
   );
