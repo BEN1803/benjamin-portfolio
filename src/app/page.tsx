@@ -9,6 +9,7 @@ import Terminal from "@/components/Terminal";
 import About from "@/components/About";
 import DeveloperStats from "@/components/DeveloperStats";
 import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -34,6 +35,8 @@ export default function Home() {
       <DeveloperStats />
 
       <Contact />
+
+      <Footer />
 
     </main>
   );
