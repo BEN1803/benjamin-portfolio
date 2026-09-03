@@ -11,11 +11,14 @@ import DeveloperStats from "@/components/DeveloperStats";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
+import ScrollProgress from "@/components/ScrollProgress";
 
 export default function Home() {
   return (
     <main id="top" className="bg-[#050505] text-[#f5f7fa]">
       <CustomCursor />
+
+      <ScrollProgress />
 
       <Navbar />
 
