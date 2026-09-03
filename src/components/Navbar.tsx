@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
+import MagneticButton from "./MagneticButton";
 
 const navItems = [
   {
@@ -59,18 +60,20 @@ export default function Navbar() {
             </a>
           ))}
 
-          <a
-            href="#contact"
-            className="group ml-2 flex items-center gap-2 border border-white/15 px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] transition-all duration-300 hover:border-[#2f7bff] hover:bg-[#2f7bff]/10"
-          >
-            Let's Talk
+          <MagneticButton strength={0.2}>
+            <a
+              href="#contact"
+              className="group flex items-center gap-2 border border-white/15 px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] transition-all duration-300 hover:border-[#2f7bff] hover:bg-[#2f7bff]/10"
+            >
+              Let's Talk
 
-            <ArrowUpRight
-              size={14}
-              strokeWidth={1.5}
-              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            />
-          </a>
+              <ArrowUpRight
+                size={14}
+                strokeWidth={1.5}
+                className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
+            </a>
+          </MagneticButton>
         </div>
 
         {/* Mobile menu button */}

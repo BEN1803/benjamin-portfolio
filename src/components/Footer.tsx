@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { ArrowUp, ArrowUpRight } from "lucide-react";
+import MagneticButton from "./MagneticButton";
 
 const footerLinks = [
   { label: "Work", href: "#work" },
@@ -137,20 +138,22 @@ export default function Footer() {
             © 2026 Benjamin Florian
           </p>
 
-          <a
-            href="#top"
-            className="group flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white/25 transition-colors duration-300 hover:text-white"
-          >
-            Back to top
+          <MagneticButton strength={0.2}>
+                <a
+                  href="#top"
+                  className="group flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.2em] text-white/25 transition-colors duration-300 hover:text-white"
+                >
+                  Back to top
 
-            <span className="flex h-7 w-7 items-center justify-center border border-white/10 transition-all duration-300 group-hover:border-[#2f7bff] group-hover:bg-[#2f7bff]/10">
-              <ArrowUp
-                size={13}
-                strokeWidth={1.3}
-                className="transition-transform duration-300 group-hover:-translate-y-0.5"
-              />
-            </span>
-          </a>
+                  <span className="flex h-7 w-7 items-center justify-center border border-white/10 transition-all duration-300 group-hover:border-[#2f7bff] group-hover:bg-[#2f7bff]/10">
+                    <ArrowUp
+                      size={13}
+                      strokeWidth={1.3}
+                      className="transition-transform duration-300 group-hover:-translate-y-0.5"
+                    />
+                  </span>
+                </a>
+            </MagneticButton>
         </div>
       </div>
 
