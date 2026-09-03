@@ -12,10 +12,13 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
 import ScrollProgress from "@/components/ScrollProgress";
+import PageTransition from "@/components/PageTransition";
 
 export default function Home() {
   return (
     <main id="top" className="bg-[#050505] text-[#f5f7fa]">
+      <PageTransition />
+      
       <CustomCursor />
 
       <ScrollProgress />
