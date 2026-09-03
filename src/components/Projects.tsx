@@ -200,8 +200,8 @@ export default function Projects() {
                 </div>
 
                 <MagneticButton strength={0.18}>
-                  <button
-                      type="button"
+                  <a        
+                      href={`/work/${project.slug}`}
                       className="group/button flex w-fit items-center gap-4 border border-white/10 px-5 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/50 transition-all duration-300 hover:border-[#2f7bff] hover:bg-[#2f7bff]/10 hover:text-white"
                     >
                       Explore Case Study
@@ -211,7 +211,7 @@ export default function Projects() {
                         strokeWidth={1.5}
                         className="transition-transform duration-300 group-hover/button:-translate-y-1 group-hover/button:translate-x-1"
                       />
-                  </button>
+                  </a>
                 </MagneticButton>
               </div>
             </div>
